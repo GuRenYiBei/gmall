@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.atguigu.gmall.pms.mapper.CategoryMapper">
+
+<!--    List<CategoryEntity> queryLvl2CatesWithSubsByPid (Long pid); -->
+    <!--
+        先查询二级分类，由于二级分类于三级分类sql语句一样，再调用一次原方法，将二级id作为三级id的父id去查询
+    -->
+    <resultMap id="subCategoryMap" type="CategoryEntity" autoMapping="true">
+        <id property="id" column="id"></id>
+        <collection property="subs" javaType="List" ofType="CategoryEntity" select="queryLvl2CatesWithSubsByPid" column="id"/>
+    </resultMap>
+    <select id="queryLvl2CatesWithSubsByPid" resultMap="subCategoryMap">
+        select * from pms_category a  where a.parent_id = ${pid}
+    </select>
+</mapper>

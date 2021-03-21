@@ -1,0 +1,46 @@
+server:
+  port: 8888
+spring:
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+    gateway:
+      routes:
+        - id: pms-route
+          uri: lb://pms-service
+          predicates:
+            - Path=/pms/**
+        - id: oms-route
+          uri: lb://oms-service
+          predicates:
+            - Path=/oms/**
+        - id: sms-route
+          uri: lb://sms-service
+          predicates:
+            - Path=/sms/**
+        - id: ums-route
+          uri: lb://ums-service
+          predicates:
+            - Path=/ums/**
+        - id: wms-route
+          uri: lb://wms-service
+          predicates:
+            - Path=/wms/**
+        - id: search-route
+          uri: lb://search-service
+          predicates:
+            - Host=search.gmall.com  #此时是访问不到的，因为nginx在转发的时候会丢弃，需要在nginx配置中将其设置到头信息中才能使用
+        - id: index-route
+          uri: lb://index-service
+          predicates:
+            - Path=/index/**
+        - id: index-route2
+          uri: lb://index-service
+          predicates:
+            - Host=www.gmall.com,gmall.com
+        - id: item-route
+          uri: lb://item-service
+          predicates:
+            - Host=item.gmall.com
+

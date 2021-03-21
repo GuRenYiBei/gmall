@@ -1,0 +1,31 @@
+server:
+  port: 18081
+
+feign:
+  sentinel:
+    enabled: true
+    # feign对sentinel的支持
+mybatis-plus:
+  mapper-locations: classpath:mapper/pms/**/*.xml
+    # mp映射文件的地址
+  type-aliases-package: com.atguigu.gmall.pms.entity
+    # 别名扫描
+  global-config:
+    db-config:
+      id-type: auto
+    # 数据库策略 主键自增
+logging:
+  level:
+   com.atguigu.gmall: debug
+spring:
+  cloud:
+    alibaba:
+      seata:
+        tx-service-group: gmall-tx-group
+  rabbitmq:
+    host: 192.168.232.178
+    virtual-host: /gryb
+    username: gryb
+    password: 123456
+    publisher-confirm-type: correlated
+    publisher-returns: true
