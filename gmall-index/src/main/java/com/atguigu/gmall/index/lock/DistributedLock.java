@@ -40,7 +40,8 @@ public class DistributedLock {
     //释放锁
     public void unlock(String keyName,String uuid) {
         String script = "if(redis.call('hexists',KEYS[1],ARGV[1])==0)  then return nil ; elseif(redis.call('hincrby',KEYS[1],ARGV[1],-1)==0) then redis.call('del',KEYS[1]);return 1 else return 0 end;";
-        Boolean flag = this.redisTemplate.execute(new DefaultRedisScript<>(script, Boolean.class), Arrays.asList(keyName), uuid);
+        Long flag = this.redisTemplate.execute(new DefaultRedisScript<>(script, Long.class), Arrays.asList(keyName), uuid);
+        //不能使用boolean，因为null也会翻译成false
         if (flag == null) {
             throw new RuntimeException("你将要释放的是别人的锁");
         }

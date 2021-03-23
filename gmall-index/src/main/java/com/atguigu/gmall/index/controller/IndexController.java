@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
@@ -23,6 +24,13 @@ public class IndexController {
 
     @Autowired
     private IndexService indexService;
+
+
+    @GetMapping("/aaa")
+    @ResponseBody
+    public String test(@RequestHeader("userId")String userId) {
+        return "获取到的用户登录信息"+userId;
+    }
 
     //跳转到首页并显示一级分类
     @GetMapping({"/", "/index"})
